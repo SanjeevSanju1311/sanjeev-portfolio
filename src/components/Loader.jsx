@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const loadingPhrases = [
-  "INITIALIZING PROTOCOLS...",
-  "ESTABLISHING SECURE CONNECTION...",
-  "RENDERING ASSETS...",
-  "CALIBRATING DIMENSIONS...",
-  "SYSTEM READY."
+  "DESIGN.",
+  "CODE.",
+  "IMPACT.",
+  "WELCOME TO MY PORTFOLIO!"
 ];
 
 const Loader = ({ onComplete }) => {
@@ -24,15 +23,14 @@ const Loader = ({ onComplete }) => {
       const nextProgress = Math.min(Math.round((currentStep / steps) * 100), 100);
       setProgress(nextProgress);
 
-      if (nextProgress < 20) setPhraseIndex(0);
-      else if (nextProgress < 50) setPhraseIndex(1);
-      else if (nextProgress < 80) setPhraseIndex(2);
-      else if (nextProgress < 95) setPhraseIndex(3);
-      else setPhraseIndex(4);
+      if (nextProgress < 16) setPhraseIndex(0);
+      else if (nextProgress < 33) setPhraseIndex(1);
+      else if (nextProgress < 50) setPhraseIndex(2);
+      else setPhraseIndex(3);
 
       if (currentStep >= steps) {
         clearInterval(timer);
-        setTimeout(onComplete, 800);
+        setTimeout(onComplete, 1200); // give time for the cinematic transition
       }
     }, interval);
 
@@ -40,30 +38,28 @@ const Loader = ({ onComplete }) => {
   }, [onComplete]);
 
   return (
-    <AnimatePresence>
-      <motion.div
-        className="loader-container-v2"
-        initial={{ opacity: 1 }}
-        exit={{
-          opacity: 0,
-          scale: 1.1,
-          filter: "blur(10px)"
-        }}
-        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
-      >
-        {/* Background Image Setup */}
-        <div className="loader-bg-image-wrapper">
-          <motion.img
-            src="/projects-bg.png"
-            alt="Loader Background"
-            className="loader-bg-image"
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 4, ease: "easeOut" }}
-          />
-          <div className="loader-bg-overlay" />
-        </div>
+    <motion.div
+      className="loader-container-v2"
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 1.5 } }}
+    >
+      {/* Split screen panels */}
+      <motion.div 
+        className="loader-split-top"
+        exit={{ y: "-100%" }}
+        transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+      />
+      <motion.div 
+        className="loader-split-bottom"
+        exit={{ y: "100%" }}
+        transition={{ duration: 1, ease: [0.76, 0, 0.24, 1], delay: 0.2 }}
+      />
 
+      <motion.div 
+        className="loader-content-wrapper"
+        exit={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
+        transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+      >
         <div className="loader-orbit-wrapper">
           {/* Orbital Rings */}
           <div className="loader-ring loader-ring-1"></div>
@@ -106,7 +102,7 @@ const Loader = ({ onComplete }) => {
           />
         </div>
       </motion.div>
-    </AnimatePresence>
+    </motion.div>
   );
 };
 

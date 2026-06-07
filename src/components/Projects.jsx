@@ -2,6 +2,12 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
+import collectionImg from '../assets/collection.png';
+import linkifyImg from '../assets/linkify.png';
+import catchyImg from '../assets/catchy.png';
+import luminaImg from '../assets/lumina.png';
+import modaImg from '../assets/moda.png';
+import examImg from '../assets/exam.png';
 
 const Projects = ({ onShowAll }) => {
   const featuredProjects = mockProjects.slice(0, 5);
@@ -56,18 +62,6 @@ const Projects = ({ onShowAll }) => {
   return (
     <section className="projects-section" id="projects" ref={containerRef}>
       
-      {/* Sticky Animated Background */}
-      <div className="projects-bg-container">
-        <div className="projects-bg-sticky">
-          <motion.img 
-            src="/projects-bg.png" 
-            alt="Cinematic Projects Background"
-            className="projects-bg-img"
-            style={{ y: bgY, scale: bgScale }}
-          />
-          <div className="projects-bg-overlay" />
-        </div>
-      </div>
 
       <div className="projects-content-wrapper">
         <div className="projects-header-v2">
@@ -204,7 +198,7 @@ const VerticalStackedCard = ({ project, index, isLast, onShowAll, onClick }) => 
             justifyContent: 'center'
           }}>
             <img 
-              src="/src/assets/collection.png" 
+              src={collectionImg} 
               alt="Project Collection" 
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -265,13 +259,14 @@ const VerticalStackedCard = ({ project, index, isLast, onShowAll, onClick }) => 
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const mockProjects = [
   {
     id: 1,
     title: 'Linkify',
     subtitle: 'Global Secure File Sharing Platform',
     description: 'A lightning-fast and secure platform for global file sharing across devices.',
-    image: '/src/assets/linkify.png',
+    image: linkifyImg,
     skills: ['Node.js', 'Express', 'React']
   },
   {
@@ -279,7 +274,7 @@ export const mockProjects = [
     title: 'Catchey',
     subtitle: 'Musical Emotion & Sentiment Engine',
     description: 'Analyzes music lyrics using Gemini 1.5 Flash to visualize emotional resonance.',
-    image: '/src/assets/catchy.png',
+    image: catchyImg,
     skills: ['Vite', 'Gemini', 'React']
   },
   {
@@ -287,7 +282,7 @@ export const mockProjects = [
     title: 'Lumina AI',
     subtitle: 'Neural Knowledge & Insights Engine',
     description: 'Distills PDFs and videos into actionable insights with mastery analytics.',
-    image: '/src/assets/lumina.png',
+    image: luminaImg,
     skills: ['Supabase', 'React', 'Vite']
   },
   {
@@ -295,7 +290,7 @@ export const mockProjects = [
     title: 'Moda AI',
     subtitle: 'AI Fashion Consultant & Analyzer',
     description: 'Analyzes outfits via camera for color harmony and fit accuracy using Google Gemini.',
-    image: '/src/assets/moda.png',
+    image: modaImg,
     skills: ['React', 'Gemini', 'Tailwind']
   },
   {
@@ -303,7 +298,7 @@ export const mockProjects = [
     title: 'Exam Pro',
     subtitle: 'Advanced Assessment Dashboard',
     description: 'Secure assessment platform for teachers and students with tab-switch detection.',
-    image: '/src/assets/exam.png',
+    image: examImg,
     skills: ['TypeScript', 'React', 'Tailwind']
   },
   {

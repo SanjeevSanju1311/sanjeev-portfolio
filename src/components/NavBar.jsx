@@ -1,8 +1,46 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll } from 'framer-motion';
 import { Home, User, Code2, Briefcase, Mail } from 'lucide-react';
 import InteractiveImage from './InteractiveImage';
 
 const NavBar = ({ activeSection }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const hideTimeoutRef = useRef(null);
+  const isHoveredRef = useRef(false);
+  
+  const { scrollYProgress } = useScroll();
+
+  const startHideTimer = () => {
+    if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    if (window.scrollY < 50) return;
+    
+    hideTimeoutRef.current = setTimeout(() => {
+      if (!isHoveredRef.current) {
+        setIsVisible(false);
+      }
+    }, 2000); // Hide after 2 seconds of reading/idle
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY < 50) {
+        setIsVisible(false);
+        if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+        return;
+      }
+
+      setIsVisible(true);
+      startHideTimer();
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+    };
+  }, []);
 
   const navItems = [
     { id: 'home', label: 'HOME', icon: <Home size={20} /> },
@@ -14,45 +52,56 @@ const NavBar = ({ activeSection }) => {
 
   return (
     <AnimatePresence>
-      {activeSection !== 'home' && (
+      {isVisible && activeSection !== 'skills' && (
         <motion.nav 
-          initial={{ x: '-100%', opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: '-100%', opacity: 0 }}
+          className="bottom-mac-dock"
+          initial={{ y: 100, x: "-50%", opacity: 0 }}
+          animate={{ y: 0, x: "-50%", opacity: 1 }}
+          exit={{ y: 100, x: "-50%", opacity: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="sidebar-nav"
+          onMouseEnter={() => {
+            isHoveredRef.current = true;
+            setIsVisible(true);
+            if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current);
+          }}
+          onMouseLeave={() => {
+            isHoveredRef.current = false;
+            startHideTimer();
+          }}
         >
-          <div className="sidebar-top">
-            <div className="sidebar-profile">
-              <InteractiveImage className="profile-img" />
-            </div>
-          </div>
+          {/* Scroll Progress Outline */}
+          <svg className="dock-outline-svg">
+            <motion.rect
+              x="1"
+              y="1"
+              width="calc(100% - 2px)"
+              height="calc(100% - 2px)"
+              rx="35"
+              className="dock-outline-rect"
+              style={{ pathLength: scrollYProgress }}
+            />
+          </svg>
 
-          <div className="sidebar-links">
+          <div className="dock-links">
             {navItems.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className={`sidebar-link ${activeSection === item.id ? 'active' : ''}`}
+                className={`dock-link ${activeSection === item.id ? 'active' : ''}`}
               >
-                <span className="link-icon">{item.icon}</span>
-                <span className="link-text">{item.label}</span>
+                <div className="dock-icon-wrapper">
+                  {item.icon}
+                </div>
+                <span className="dock-tooltip">{item.label}</span>
                 {activeSection === item.id && (
                   <motion.div 
-                    layoutId="active-pill"
-                    className="active-indicator"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    layoutId="dock-active-dot"
+                    className="dock-active-dot"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
               </a>
             ))}
-          </div>
-
-          <div className="sidebar-bottom">
-
-            <div className="sidebar-copyright">
-              © {new Date().getFullYear()} Your Name
-            </div>
           </div>
         </motion.nav>
       )}

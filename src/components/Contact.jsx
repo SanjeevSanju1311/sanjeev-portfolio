@@ -99,15 +99,6 @@ const Contact = ({ onExplorePotential }) => {
           <span className="title-solid">Contact</span>{' '}
           <span className="title-outline">Me.</span>
         </motion.h2>
-        <motion.p 
-          className="contact-v3-subtitle"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
-        >
-          Rotate the spin wheel or scroll down to explore my communication channels and connect directly.
-        </motion.p>
       </div>
 
       <div className="contact-grid-v3">

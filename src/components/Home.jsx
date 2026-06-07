@@ -1,6 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { FaGithub, FaLinkedin, FaInstagram, FaArrowRight } from 'react-icons/fa';
+import resumeFile from '../assets/SANJEEV_RESUME.pdf';
 
 const StarField = () => {
   const [stars] = useState(() => {
@@ -42,41 +43,9 @@ const StarField = () => {
 };
 
 const Home = () => {
-  const { scrollY } = useScroll();
-  const yBg = useTransform(scrollY, [0, 1000], [0, 400]);
-  const opacity = useTransform(scrollY, [0, 500], [1, 0]);
-  const scaleHero = useTransform(scrollY, [0, 500], [1, 0.95]);
-
-  const buttonRef = useRef(null);
-  const mX = useSpring(0, { stiffness: 150, damping: 15 });
-  const mY = useSpring(0, { stiffness: 150, damping: 15 });
-
-  const [particles] = useState(() => {
-    return Array.from({ length: 12 }).map((_, i) => ({
-      id: i,
-      x: (Math.random() * 100).toFixed(2) + '%',
-      y: (Math.random() * 100).toFixed(2) + '%',
-      opacity: (Math.random() * 0.4).toFixed(2),
-      duration: (Math.random() * 8 + 8).toFixed(2),
-      size: (Math.random() * 2 + 1).toFixed(2) + 'px'
-    }));
-  });
-
-  const handleButtonMove = (e) => {
-    const rect = buttonRef.current.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-    mX.set(x * 0.35);
-    mY.set(y * 0.35);
-  };
-
-  const handleButtonLeave = () => {
-    mX.set(0);
-    mY.set(0);
-  };
 
   const containerVariants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 1 },
     visible: {
       opacity: 1,
       transition: {
@@ -96,6 +65,18 @@ const Home = () => {
     }
   };
 
+  const { scrollY } = useScroll();
+  
+  // Dampen the scroll value for ultra-lazy, smooth scroll-outs
+  const smoothScrollY = useSpring(scrollY, { damping: 40, stiffness: 40, mass: 2 });
+
+  // Outbound Scroll Transforms
+  const leftX = useTransform(smoothScrollY, [0, 800], [0, -1000]);
+  const rightX = useTransform(smoothScrollY, [0, 800], [0, 1000]);
+  const fadeOut = useTransform(smoothScrollY, [0, 600], [1, 0]);
+  const badgeY = useTransform(smoothScrollY, [0, 800], [0, -200]);
+  const buttonsY = useTransform(smoothScrollY, [0, 800], [0, 300]);
+
   const socialItems = [
     { Icon: FaGithub, link: 'https://github.com/SanjeevSanju1311', color: '#ffffff', hoverColor: '#6e5494' },
     { Icon: FaLinkedin, link: 'https://linkedin.com/in/sanjeevk1311', color: '#ffffff', hoverColor: '#0077B5' },
@@ -106,154 +87,126 @@ const Home = () => {
     <section id="home" className="home-section" data-theme="dark">
       <StarField />
 
-      <div className="home-bg-image-container">
-        <motion.img
-          src="/src/assets/image.png"
-          className="home-bg-image"
-          style={{ y: yBg }}
-          initial={{ scale: 1.1, opacity: 0 }}
-          animate={{ scale: 1, opacity: 0.8 }}
-          transition={{ duration: 2, ease: "easeOut" }}
-        />
-      </div>
 
-      {/* BACKGROUND GRAPHICS & BLUR ORBS */}
-      <div className="orbit-container">
-        <div className="orbit-ring ring-1"></div>
-        <div className="orbit-ring ring-2"></div>
-        <div className="orbit-ring ring-3"></div>
-      </div>
-
-      <div className="cosmic-glow-orb orb-1"></div>
-      <div className="cosmic-glow-orb orb-2"></div>
-      <div className="home-bg-overlay"></div>
-
-      <div className="home-particles" style={{ pointerEvents: 'none' }}>
-        {particles.map((p) => (
-          <motion.div
-            key={p.id}
-            className="home-particle"
-            initial={{
-              x: p.x,
-              y: p.y,
-              opacity: parseFloat(p.opacity)
-            }}
-            animate={{ y: [null, '-15vh'], opacity: [null, 0] }}
-            transition={{ duration: parseFloat(p.duration), repeat: Infinity, ease: "linear" }}
-            style={{
-              position: 'absolute',
-              width: p.size,
-              height: p.size,
-              backgroundColor: 'var(--accent-color)',
-              borderRadius: '50%',
-              zIndex: 1
-            }}
-          />
-        ))}
-      </div>
-
-      {/* HERO CONTENT */}
-      <motion.div
-        className="hero-content-grid"
-        style={{ opacity, scale: scaleHero }}
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
+      {/* MAIN HERO CONTENT */}
+      <div className="hero-centered-layout">
         <motion.div
-          className="hud-status-badge centered"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{
-            delay: 2,
-            duration: 1,
-            type: "spring",
-            stiffness: 100
-          }}
+          className="hero-massive-container"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <span className="pulse-dot"></span>
-          AVAILABLE FOR INTERN / FULL TIME JOB
+          <motion.div className="hero-badge-wrapper" style={{ opacity: fadeOut, y: badgeY }}>
+            <motion.div
+              className="hud-status-badge"
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 1 }}
+            >
+              <span className="pulse-dot"></span>
+              AVAILABLE FOR INTERN / FULL TIME JOB
+            </motion.div>
+
+            <motion.div 
+              className="hero-eyebrow-center" 
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1], delay: 1.2 }}
+            >
+              CREATIVE DEVELOPER & DESIGNER
+            </motion.div>
+          </motion.div>
+
+          <div className="hero-massive-title-v2" style={{ display: 'flex', gap: '2vw', justifyContent: 'center' }}>
+            <motion.div style={{ x: leftX, opacity: fadeOut }}>
+              <motion.div
+                className="word-solid"
+                initial={{ x: '-50vw', opacity: 0, filter: 'blur(30px)' }}
+                animate={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
+                transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              >
+                SANJEEV
+              </motion.div>
+            </motion.div>
+
+            <motion.div style={{ x: rightX, opacity: fadeOut }}>
+              <motion.div
+                className="word-outline"
+                initial={{ x: '50vw', opacity: 0, filter: 'blur(30px)' }}
+                animate={{ x: 0, opacity: 1, filter: 'blur(0px)' }}
+                transition={{ duration: 3.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              >
+                PORTFOLIO
+              </motion.div>
+            </motion.div>
+          </div>
+
+          <motion.div 
+            className="hero-action-buttons" 
+            style={{ opacity: fadeOut, y: buttonsY }}
+          >
+            <motion.a 
+              href={resumeFile}
+              target="_blank"
+              rel="noreferrer"
+              className="hero-btn-primary"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 1.5 }}
+            >
+              <span>VIEW RESUME</span>
+              <FaArrowRight className="btn-arrow" />
+            </motion.a>
+            <motion.a 
+              href="#projects" 
+              className="hero-btn-secondary"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 2, ease: [0.22, 1, 0.36, 1], delay: 1.7 }}
+            >
+              <span>VIEW WORK</span>
+              <FaArrowRight className="btn-arrow" />
+            </motion.a>
+          </motion.div>
         </motion.div>
 
-        <div className="hero-left">
-          <motion.div className="hero-eyebrow" variants={itemVariants}>
-            <span className="eyebrow-line"></span>
-            CREATIVE DEVELOPER & DESIGNER
-          </motion.div>
+        {/* VERTICAL SOCIAL ICONS */}
+        <motion.div 
+          className="hero-social-vertical"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {socialItems.map((item, idx) => (
+            <motion.a 
+              key={idx} 
+              href={item.link} 
+              target="_blank" 
+              rel="noreferrer"
+              variants={itemVariants}
+            >
+              <item.Icon />
+            </motion.a>
+          ))}
+        </motion.div>
 
-          <motion.h1 className="hero-main-title" variants={itemVariants}>
-            <div className="title-solid" style={{ color: '#ffffff' }}>SANJEEV</div>
-            <div className="title-outline">PORTFOLIO.</div>
-          </motion.h1>
+      </div>
 
-          <motion.div className="hero-line-decoration" variants={itemVariants}></motion.div>
-        </div>
-
-        <div className="hero-right">
-          <motion.p className="hero-right-desc" variants={itemVariants}>
-            Final year Full Stack Developer creating immersive web applications using modern technologies, interactive design, and scalable solutions. Passionate about building visually engaging, high-performance digital experiences that blend creativity with innovation.
-          </motion.p>
-
-          <motion.div
-            variants={itemVariants}
-            ref={buttonRef}
-            onMouseMove={handleButtonMove}
-            onMouseLeave={handleButtonLeave}
-            style={{ x: mX, y: mY }}
-          >
-            <button className="hero-resume-pill premium-glass">
-              <span className="btn-glow"></span>
-              <span>VIEW RESUME</span>
-              <FaArrowRight className="resume-arrow" />
-            </button>
-          </motion.div>
-
-          <motion.div className="hero-social-links-v2" variants={itemVariants}>
-            {socialItems.map((item, idx) => (
-              <motion.a
-                key={idx}
-                href={item.link}
-                target="_blank"
-                rel="noreferrer"
-                style={{ color: item.color }}
-                whileHover={{
-                  scale: 1.3,
-                  color: item.hoverColor,
-                  transition: { type: "spring", stiffness: 400, damping: 10 }
-                }}
-              >
-                <item.Icon />
-              </motion.a>
-            ))}
-          </motion.div>
-        </div>
-
-      </motion.div>
-
-      {/* SCROLL INDICATOR */}
+      {/* PREMIUM SCROLL INDICATOR */}
       <motion.div
-        className="hero-explore-v3"
+        className="premium-scroll-indicator"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.5 }}
+        transition={{ delay: 1, duration: 1 }}
       >
-        <span className="scroll-text">SCROLL TO EXPLORE</span>
-        <div className="mouse-indicator">
+        <div className="scroll-line-container">
           <motion.div
-            className="mouse-wheel"
-            animate={{
-              y: [0, 12, 0],
-              opacity: [0, 1, 0]
-            }}
-            transition={{
-              repeat: Infinity,
-              duration: 1.5,
-              ease: "easeInOut"
-            }}
+            className="scroll-line-fill"
+            animate={{ y: ["-100%", "100%"] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
           />
         </div>
       </motion.div>
-
     </section>
   );
 };
