@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring, AnimatePresence, useMotionValueEvent } from 'framer-motion';
 import ProjectCard from './ProjectCard';
 import ProjectModal from './ProjectModal';
 import collectionImg from '../assets/collection.png';
@@ -14,6 +14,7 @@ const Projects = ({ onShowAll }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
   const containerRef = useRef(null);
+  const stackRef = useRef(null);
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -40,24 +41,21 @@ const Projects = ({ onShowAll }) => {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const wrappers = document.querySelectorAll('.project-card-wrapper');
-      let currentIdx = 0;
-      
-      wrappers.forEach((wrapper, index) => {
-        const rect = wrapper.getBoundingClientRect();
-        if (rect.top <= (window.innerHeight * 0.1) + (index * 35) + 50) {
-          currentIdx = index;
-        }
-      });
-      
-      setActiveIndex(currentIdx);
-    };
+  const { scrollYProgress: stackProgress } = useScroll({
+    target: stackRef,
+    offset: ["start 50%", "end 50%"]
+  });
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  useMotionValueEvent(stackProgress, "change", (latest) => {
+    const totalCards = featuredProjects.length + 1; // 5 featured + 1 show all = 6
+    let newIndex = Math.floor(latest * totalCards);
+    if (newIndex >= totalCards) newIndex = totalCards - 1;
+    if (newIndex < 0) newIndex = 0;
+    
+    if (newIndex !== activeIndex) {
+      setActiveIndex(newIndex);
+    }
+  });
 
   return (
     <section className="projects-section" id="projects" ref={containerRef}>
@@ -118,7 +116,7 @@ const Projects = ({ onShowAll }) => {
           )}
         </AnimatePresence>
 
-        <div className="projects-stack-container">
+        <div className="projects-stack-container" ref={stackRef}>
           {featuredProjects.map((project, index) => (
             <VerticalStackedCard 
               key={project.id} 
@@ -171,6 +169,7 @@ const VerticalStackedCard = ({ project, index, isLast, onShowAll, onClick }) => 
     <div 
       ref={containerRef}
       className="project-card-wrapper"
+      data-index={index}
       style={{ 
         top: isMobile ? `${140 + (index * 40)}px` : `calc(10vh + ${index * 35}px)`, 
         zIndex: index 

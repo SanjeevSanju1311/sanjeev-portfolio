@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { 
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaBootstrap, FaNodeJs, FaJava, 
@@ -75,6 +75,15 @@ const skillCategories = [
 
 const Skills = () => {
   const containerRef = useRef(null);
+  const carouselRef = useRef(null);
+  
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
   
   // The container will be 500vh tall to allow scrolling through 5 cards.
   const { scrollYProgress } = useScroll({
@@ -82,8 +91,14 @@ const Skills = () => {
     offset: ["start start", "end end"]
   });
 
+  const { scrollXProgress } = useScroll({
+    container: carouselRef
+  });
+
+  const progress = isMobile ? scrollXProgress : scrollYProgress;
+
   // Map scroll progress (0 to 1) directly to a float index (0 to 4)
-  const activeIndexFloat = useTransform(scrollYProgress, [0, 1], [0, skillCategories.length - 1]);
+  const activeIndexFloat = useTransform(progress, [0, 1], [0, skillCategories.length - 1]);
   
   // Use a spring to make the transitions ultra-smooth when scrubbing
   const smoothIndex = useSpring(activeIndexFloat, { damping: 25, stiffness: 100, mass: 1 });
@@ -108,7 +123,7 @@ const Skills = () => {
         </div>
 
         {/* 3D Coverflow Deck */}
-        <div className="coverflow-container">
+        <div className="coverflow-container" ref={carouselRef}>
           {skillCategories.map((category, index) => {
             return (
               <SkillCard 

@@ -4548,9 +4548,45 @@ section {
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
+  .skills-scroll-container {
+    height: auto !important;
+    min-height: 100vh;
+  }
+  .skills-sticky-wrapper {
+    position: relative !important;
+    height: 100% !important;
+    padding-top: 10vh !important;
+    padding-bottom: 10vh !important;
+    justify-content: center !important;
+  }
+  .coverflow-container {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-snap-type: x mandatory !important;
+    justify-content: flex-start !important;
+    perspective: none !important;
+    transform-style: flat !important;
+    padding: 20px 7.5vw !important;
+    gap: 20px !important;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100vw !important;
+  }
+  .coverflow-container::-webkit-scrollbar {
+    display: none;
+  }
   .coverflow-card {
-    width: 260px;
-    height: 380px;
+    position: relative !important;
+    transform: none !important;
+    scale: 1 !important;
+    z-index: 1 !important;
+    flex: 0 0 85vw !important;
+    max-width: 320px !important;
+    height: 400px !important;
+    scroll-snap-align: center !important;
+    margin: auto 0 !important;
+    left: auto !important;
+    right: auto !important;
     padding: 1.2rem;
   }
 
