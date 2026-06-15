@@ -42,12 +42,16 @@ const ProjectModal = ({ project, onClose }) => {
           <p className="project-modal-desc">{project.description}</p>
           
           <div className="project-modal-actions">
-            <a href={project.url || '#'} className="modal-action-btn primary" target="_blank" rel="noreferrer">
-              <ExternalLink size={18} /> Visit Live
-            </a>
-            <a href={project.url || '#'} className="modal-action-btn secondary" target="_blank" rel="noreferrer">
-              <FaGithub size={18} /> View Source
-            </a>
+            {project.liveLink && (
+              <a href={project.liveLink} className="modal-action-btn primary" target="_blank" rel="noreferrer">
+                <ExternalLink size={18} /> Visit Live
+              </a>
+            )}
+            {project.githubLink && (
+              <a href={project.githubLink} className="modal-action-btn secondary" target="_blank" rel="noreferrer">
+                <FaGithub size={18} /> View Source
+              </a>
+            )}
           </div>
         </div>
       </motion.div>

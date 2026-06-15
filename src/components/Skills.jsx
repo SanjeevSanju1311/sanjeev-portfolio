@@ -2,9 +2,10 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from 'framer-motion';
 import { 
   FaHtml5, FaCss3Alt, FaJs, FaReact, FaBootstrap, FaNodeJs, FaJava, 
-  FaGitAlt, FaDocker, FaFigma, FaDatabase
+  FaGitAlt, FaDocker, FaFigma, FaDatabase, FaGithub
 } from 'react-icons/fa';
 import { SiTailwindcss, SiExpress, SiMongodb, SiMysql, SiCanva, SiTypescript } from 'react-icons/si';
+import { VscVscode } from 'react-icons/vsc';
 
 const skillCategories = [
   {
@@ -41,6 +42,8 @@ const skillCategories = [
     icon: <FaGitAlt className="card-main-icon" style={{ color: '#F05032' }} />,
     skills: [
       { name: "Git", icon: <FaGitAlt color="#F05032" /> },
+      { name: "GitHub", icon: <FaGithub color="#ffffff" /> },
+      { name: "VS Code", icon: <VscVscode color="#007ACC" /> },
       { name: "Docker", icon: <FaDocker color="#2496ED" /> },
       { name: "Figma", icon: <FaFigma color="#F24E1E" /> },
       { name: "Canva", icon: <SiCanva color="#00C4CC" /> },
@@ -67,6 +70,7 @@ const skillCategories = [
     icon: <div className="card-main-icon" style={{ fontSize: '4rem' }}>🤖</div>,
     skills: [
       { name: "ChatGPT", icon: "💬" },
+      { name: "Claude", icon: "🧠" },
       { name: "Google Gemini", icon: "✨" },
       { name: "GitHub Copilot", icon: "✈️" }
     ]

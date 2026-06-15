@@ -55,10 +55,10 @@ const AllProjectsView = ({ projects, onClose }) => {
               </p>
               
               <div className="row-actions">
-                <a href={project.github || '#'} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="row-action-btn icon-btn">
+                <a href={project.githubLink || '#'} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="row-action-btn icon-btn">
                   <FaGithub size={18} />
                 </a>
-                <a href={project.live || '#'} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="row-action-btn icon-btn">
+                <a href={project.liveLink || '#'} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="row-action-btn icon-btn">
                   <ExternalLink size={18} />
                 </a>
                 <button onClick={(e) => { e.stopPropagation(); setSelectedProject(project); }} className="row-action-btn text-btn">

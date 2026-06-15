@@ -8,6 +8,10 @@ import catchyImg from '../assets/catchy.png';
 import luminaImg from '../assets/lumina.png';
 import modaImg from '../assets/moda.png';
 import examImg from '../assets/exam.png';
+import xenthisImg from '../assets/xenthis.png';
+import qrGeneratorImg from '../assets/QR generator.png';
+import calculatorImg from '../assets/calculator.png';
+import todoImg from '../assets/todo.png';
 
 const Projects = ({ onShowAll }) => {
   const featuredProjects = mockProjects.slice(0, 5);
@@ -264,65 +268,101 @@ export const mockProjects = [
     id: 1,
     title: 'Linkify',
     subtitle: 'Global Secure File Sharing Platform',
-    description: 'A lightning-fast and secure platform for global file sharing across devices.',
+    description: 'Linkify is a cutting-edge, ultra-secure file-sharing platform designed for seamless global connectivity. By leveraging end-to-end encryption and a highly optimized architecture, it allows users to effortlessly transfer files of any size across diverse devices and operating systems without compromising on speed or security. The intuitive user interface ensures that sharing sensitive documents or large multimedia files is just a click away.',
     image: linkifyImg,
-    skills: ['Node.js', 'Express', 'React']
+    skills: ['Node.js', 'Express', 'React', 'MongoDB'],
+    liveLink: 'https://linkify-share-pro.vercel.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/Linkify'
   },
   {
     id: 2,
     title: 'Catchey',
     subtitle: 'Musical Emotion & Sentiment Engine',
-    description: 'Analyzes music lyrics using Gemini 1.5 Flash to visualize emotional resonance.',
+    description: 'Catchey is an innovative music sentiment engine that deeply analyzes lyrical content to visualize the core emotional resonance of songs. Utilizing the advanced capabilities of Gemini 1.5 Flash, it processes complex poetic structures to generate real-time emotional maps and sentiment scores. This provides music enthusiasts and creators with a profound new way to understand and interact with their favorite tracks.',
     image: catchyImg,
-    skills: ['Vite', 'Gemini', 'React']
+    skills: ['Vite', 'Gemini', 'React', 'Tailwind CSS'],
+    liveLink: 'https://catchey.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/Catchey'
   },
   {
     id: 3,
     title: 'Lumina AI',
     subtitle: 'Neural Knowledge & Insights Engine',
-    description: 'Distills PDFs and videos into actionable insights with mastery analytics.',
+    description: 'Lumina AI transforms the way you learn by distilling lengthy PDFs and educational videos into concise, actionable insights. With an integrated mastery analytics dashboard, it tracks your learning progress, highlights critical knowledge gaps, and dynamically adapts its summaries. Whether you are a student preparing for exams or a professional reviewing reports, Lumina AI is your ultimate knowledge companion.',
     image: luminaImg,
-    skills: ['Supabase', 'React', 'Vite']
+    skills: ['Supabase', 'React', 'Vite', 'AI Integration'],
+    liveLink: 'https://lumina-ai-summarizer.vercel.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/Lumina-AI'
   },
   {
     id: 4,
     title: 'Moda AI',
     subtitle: 'AI Fashion Consultant & Analyzer',
-    description: 'Analyzes outfits via camera for color harmony and fit accuracy using Google Gemini.',
+    description: 'Moda AI is a personal styling assistant that analyzes your outfits through your device\'s camera. Powered by Google Gemini, it evaluates color harmony, seasonal trends, and fit accuracy to provide bespoke fashion advice. It empowers users to make confident sartorial choices, offering smart wardrobe suggestions and instant feedback on daily looks with remarkable precision.',
     image: modaImg,
-    skills: ['React', 'Gemini', 'Tailwind']
+    skills: ['React', 'Gemini', 'Tailwind', 'Computer Vision'],
+    liveLink: 'https://moda-ai-fashion-analyzer.vercel.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/Moda-AI'
   },
   {
     id: 5,
     title: 'Exam Pro',
     subtitle: 'Advanced Assessment Dashboard',
-    description: 'Secure assessment platform for teachers and students with tab-switch detection.',
+    description: 'Exam Pro is a robust, highly secure online assessment platform engineered for modern educational institutions. It features an intelligent proctoring system with tab-switch detection and real-time monitoring to ensure academic integrity. For educators, it offers a comprehensive dashboard to effortlessly manage quizzes, analyze student performance metrics, and generate detailed reports.',
     image: examImg,
-    skills: ['TypeScript', 'React', 'Tailwind']
+    skills: ['TypeScript', 'React', 'Tailwind', 'Node.js'],
+    liveLink: 'https://exampro-online-exam.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/Exam-Pro'
   },
   {
     id: 6,
     title: 'AI Summarizer',
     subtitle: 'Smart Study & Quiz Companion',
-    description: 'Generates instant summaries and AI-powered quizzes for enhanced learning.',
-    image: 'https://picsum.photos/seed/aisum/1200/800',
-    skills: ['React', 'Gemini', 'CSS']
+    description: 'An integral component of the Exam Pro ecosystem, the AI Summarizer acts as an intelligent study companion. It instantly generates highly accurate summaries from extensive study materials and automatically creates AI-powered quizzes to reinforce learning. This tool drastically reduces study time while maximizing retention, making it an indispensable asset for proactive learners.',
+    image: examImg,
+    skills: ['React', 'Gemini', 'CSS', 'API Integration'],
+    liveLink: 'https://exampro-ai-analyzer.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/ExamPro-AI-Analyzer'
   },
   {
     id: 7,
-    title: 'CareerPath AI',
-    subtitle: 'AI-Driven Career Guidance System',
-    description: 'Generates personalized career roadmaps for students using AI analysis.',
-    image: 'https://picsum.photos/seed/careerpath/1200/800',
-    skills: ['JavaScript', 'Vercel', 'AI']
+    title: 'Xenthis',
+    subtitle: 'Tech Agency Website',
+    description: 'A modern, responsive landing page for a tech agency or startup. It features smooth animations, an engaging layout, and a clean, professional aesthetic to effectively showcase digital services and products.',
+    image: xenthisImg,
+    skills: ['HTML', 'CSS', 'JavaScript'],
+    liveLink: 'https://xenthis-tech.github.io/xenthis/',
+    githubLink: 'https://github.com/Xenthis-Tech/xenthis'
   },
   {
     id: 8,
-    title: 'Stock Alert',
-    subtitle: 'Real-time Market Watch System',
-    description: 'Monitoring tool sending instant alerts for price changes and market shifts.',
-    image: 'https://picsum.photos/seed/stockalert/1200/800',
-    skills: ['MongoDB', 'Express', 'Node']
+    title: 'QR Code Generator 2.0',
+    subtitle: 'Dynamic QR Code Creator',
+    description: 'A sleek and highly efficient utility tool designed to instantly generate customizable QR codes from text, URLs, and other data inputs. Built with a responsive and user-friendly interface for seamless operation across devices.',
+    image: qrGeneratorImg,
+    skills: ['React', 'JavaScript', 'CSS'],
+    liveLink: 'https://qr-code-generator-2-0.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/qr-code-generator-2-0'
+  },
+  {
+    id: 9,
+    title: 'Responsive Calculator',
+    subtitle: 'Web-Based Calculator',
+    description: 'A beautifully designed, fully responsive calculator application. It provides standard arithmetic operations with a clean, intuitive, and satisfying glassmorphism user interface.',
+    image: calculatorImg,
+    skills: ['HTML', 'CSS', 'JavaScript'],
+    liveLink: 'https://simple-responsive-calculator.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/simple-responsive-calculator'
+  },
+  {
+    id: 10,
+    title: 'TaskMaster To-Do',
+    subtitle: 'Interactive Task Manager',
+    description: 'A robust to-do list application that helps users organize their daily tasks efficiently. Features intuitive task addition, deletion, and status toggling with persistent data management for a flawless user experience.',
+    image: todoImg,
+    skills: ['React', 'Tailwind', 'JavaScript'],
+    liveLink: 'https://to-do-list-sanjeev.netlify.app/',
+    githubLink: 'https://github.com/SanjeevSanju1311/to-do-list'
   }
 ];
 

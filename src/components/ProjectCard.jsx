@@ -59,7 +59,6 @@ const ProjectCard = ({ project }) => {
       <div className="project-card-overlay">
         <div className="project-card-header" style={{ transform: isMobile ? "none" : "translateZ(50px)" }}>
           <h3 className="project-card-title">{project.title}</h3>
-          <p className="project-card-desc">{project.description}</p>
         </div>
 
         <div className="project-card-footer" style={{ transform: isMobile ? "none" : "translateZ(70px)" }}>
